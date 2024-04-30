@@ -1,26 +1,24 @@
 mod graph;
-mod shortest_paths; // Import the shortest_paths module
+mod jaccard_similarity;
 
-use graph::Graph;
-use shortest_paths::compute_all_shortest_paths;
+use graph::{Graph, read_graph_from_file};
+use jaccard_similarity::compute_jaccard_similarity_for_shortest_paths_of_2;
 use std::collections::HashMap;
 
 fn main() {
-    let graph_file = "test_data.txt";
-    if let Some(graph) = graph::read_graph_from_file(graph_file) {
-        // Compute all shortest paths and store the results in a hashmap
-        let all_shortest_paths = compute_all_shortest_paths(&graph);
+    // Specify the filename of the graph data
+    let filename = "final_data1.txt";
 
-        // Print all shortest paths stored in the hashmap
-        for (source_node, shortest_paths) in &all_shortest_paths {
-            println!("Shortest paths from source node {}", source_node);
-            for (node, distance) in shortest_paths {
-                println!("  Shortest distance to node {} is {}", node, distance);
-            }
-            println!(); // Print empty line for separation
+    // Read the graph from the specified file
+    if let Some(graph) = read_graph_from_file(filename) {
+        // Compute Jaccard similarity scores for pairs of vertices with shortest path of 2
+        let jaccard_similarities = compute_jaccard_similarity_for_shortest_paths_of_2(&graph);
+
+        // Print the computed Jaccard similarity scores
+        println!("Jaccard Similarity Scores for Pairs of Vertices with Shortest Path of 2:");
+        for ((source_vertex, vertex), similarity) in &jaccard_similarities {
+            println!("Jaccard Similarity between {} and {}: {:.4}",source_vertex, vertex, similarity);
         }
-
-        // Optionally, you can further process or save the `all_shortest_paths` hashmap here
     } else {
         println!("Failed to read the graph from file.");
     }

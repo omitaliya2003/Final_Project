@@ -1,4 +1,4 @@
-use std::collections::{HashMap, VecDeque};
+use std::collections::{HashMap, VecDeque, HashSet};
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
@@ -37,14 +37,16 @@ impl Graph {
 
         distances
     }
+    
 }
+
 
 // Function to read graph from file and store it into Hash Map 
 pub fn read_graph_from_file(filename: &str) -> Option<Graph> {
     let file = File::open(filename).ok()?;
     let reader = BufReader::new(file);
     let mut lines = reader.lines();
-
+    //Use Shuffle rust code to get first random n vertices
     let num_vertices = lines.next()?.unwrap().parse::<usize>().ok()?;
     let mut adjacency_list = HashMap::new();
 
