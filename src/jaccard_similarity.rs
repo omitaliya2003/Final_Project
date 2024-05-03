@@ -3,7 +3,7 @@ use std::collections::{HashMap, HashSet};
 
 /// Compute Jaccard similarity scores for pairs of vertices with shortest path of 2
 /// from different source vertices in the graph.
-pub fn compute_jaccard_similarity_for_shortest_paths_of_2(graph: &Graph) -> HashMap<(usize, usize), f64> {
+pub fn compute_jaccard_similarity(graph: &Graph) -> HashMap<(usize, usize), f64> {
     let mut jaccard_similarities = HashMap::new();
 
     // Iterate over all source vertices in the graph
@@ -25,7 +25,6 @@ pub fn compute_jaccard_similarity_for_shortest_paths_of_2(graph: &Graph) -> Hash
                     let union_size = neighbors_source.union(&neighbors_vertex).count() as f64;
                     let jaccard_similarity = intersection_size / union_size;
 
-                    // Store the computed Jaccard similarity for the vertex pair if above 0.5
                     jaccard_similarities.insert((source_vertex, vertex), jaccard_similarity);
                 }
             }
